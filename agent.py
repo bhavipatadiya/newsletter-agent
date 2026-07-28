@@ -72,9 +72,6 @@ class NewsletterPipelineAgent(BaseAgent):
             yield event
 
 
-# This is the entry point ADK looks for. `workflow.py` from the previous
-# version built an identical second instance of this same pipeline and
-# isn't needed - one root_agent is all ADK requires.
 root_agent = NewsletterPipelineAgent(
     name="newsletter_pipeline",
     research_agent=research_agent,
