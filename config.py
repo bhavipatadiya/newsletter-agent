@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
-MODEL_NAME = os.getenv("MODEL_NAME", "gemini-2.5-flash-lite")
+MODEL_NAME = os.getenv("MODEL_NAME", "gemini-2.5-flash")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 MAX_FACTS = 4
 NEWSLETTER_FORMAT = "markdown"
