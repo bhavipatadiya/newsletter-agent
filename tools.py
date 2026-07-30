@@ -113,7 +113,7 @@ User Message:
                 google_search=types.GoogleSearch()
             )
         ]
-    ),
+    )
 
     research_res = response.text
     
