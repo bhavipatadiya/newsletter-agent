@@ -4,11 +4,8 @@ from tools import generate_newsletter
 from config import MODEL_NAME
 
 
-def newsletter_tool(
-    newsletter_text: str = "",
-    research_text: str = "",
-    tool_context: ToolContext = None
-) -> str:
+def newsletter_tool(tool_context: ToolContext = None) -> str:
+
     """
     Convert research into a markdown newsletter.
 
@@ -16,13 +13,10 @@ def newsletter_tool(
     so there is nothing for the model to "unwrap" - it can just pass the
     markdown straight through as its final answer.
     """
-    research = research_text
-    if not research and tool_context and tool_context.state:
+    research = ""
+    if tool_context and tool_context.state:
         research = tool_context.state.get("last_research", "")
     
-    if newsletter_text and tool_context and tool_context.state:
-        tool_context.state["last_newsletter"] = newsletter_text
-
     return generate_newsletter(research, tool_context)
 
 
