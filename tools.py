@@ -24,7 +24,6 @@ def generate_content_with_retry(contents, config=None, tools=None):
     for model in models:
         for attempt in range(3):
             try:
-                # Prepare call config
                 call_config = config or types.GenerateContentConfig()
                 if tools:
                     call_config.tools = tools
@@ -38,13 +37,11 @@ def generate_content_with_retry(contents, config=None, tools=None):
             except Exception as e:
                 last_err = e
                 err_msg = str(e)
-                # Check for 503 Unavailable or 429 Rate Limit
                 if any(x in err_msg for x in ["503", "429", "UNAVAILABLE", "ResourceExhausted", "RESOURCE_EXHAUSTED", "limit"]):
                     wait_time = (attempt + 1) * 2
                     time.sleep(wait_time)
                     continue
                 else:
-                    # Non-transient error, break attempt loop to try next model
                     break
     raise last_err
 
