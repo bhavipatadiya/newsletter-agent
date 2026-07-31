@@ -33,6 +33,11 @@ def is_retryable_error(error: Exception) -> bool:
     Returns:
         True if the error is retryable, False otherwise.
     """
+    # Check error code attribute directly if available on the exception
+    code = getattr(error, "code", None)
+    if code in (429, 503):
+        return True
+
     err_msg = str(error)
     return any(code in err_msg for code in RETRY_ERRORS)
 
