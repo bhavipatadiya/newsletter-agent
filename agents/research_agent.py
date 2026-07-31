@@ -1,16 +1,26 @@
+from typing import Optional
+
 from google.adk.agents import Agent
 from google.adk.tools.tool_context import ToolContext
-from tools import research_topic
+
 from config import MODEL_NAME
+from tools import research_topic
 
+def research_tool(
+    topic: str = "", tool_context: Optional[ToolContext] = None
+) -> str:
+    """Wrapper around the research function to interface with the research agent.
 
-def research_tool(topic: str = "", tool_context: ToolContext = None) -> str:
-    """
-    Wrapper around the research function.
+    Returns the raw research findings as a single plain-text string. Returning a
+    simple string instead of a dict prevents the model from having to unwrap any
+    nested structures, allowing it to pass the text directly through.
 
-    Returns the raw research findings as a single plain-text string
-    (not a dict) - there's nothing to unwrap this way, so the model
-    can only pass the text straight through as its final answer.
+    Args:
+        topic: The topic to research.
+        tool_context: The ADK ToolContext containing the session state.
+
+    Returns:
+        The raw research findings.
     """
     return research_topic(topic, tool_context)
 

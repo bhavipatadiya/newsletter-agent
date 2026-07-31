@@ -1,22 +1,28 @@
+from typing import Optional
+
 from google.adk.agents import Agent
 from google.adk.tools.tool_context import ToolContext
-from tools import generate_newsletter
+
 from config import MODEL_NAME
+from tools import generate_newsletter
 
+def newsletter_tool(tool_context: Optional[ToolContext] = None) -> str:
+    """Wrapper around the newsletter generation function.
 
-def newsletter_tool(tool_context: ToolContext = None) -> str:
+    Converts raw research text from the session state into a polished markdown
+    newsletter. Returns the result as a plain-text string so the model can
+    output it directly without unwrapping.
 
-    """
-    Convert research into a markdown newsletter.
+    Args:
+        tool_context: The ADK ToolContext containing the session state.
 
-    Returns the newsletter as a plain-text (markdown) string, not a dict,
-    so there is nothing for the model to "unwrap" - it can just pass the
-    markdown straight through as its final answer.
+    Returns:
+        The generated markdown newsletter.
     """
     research = ""
     if tool_context and tool_context.state:
         research = tool_context.state.get("last_research", "")
-    
+
     return generate_newsletter(research, tool_context)
 
 
